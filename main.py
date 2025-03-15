@@ -32,7 +32,7 @@ class HiPinBot:
             'Referrer-Policy': 'strict-origin-when-cross-origin'
         }
         self.start_time = datetime.now()
-        self.resource_types = ["Twitter", "Google", "Telegram", "Discord", "Github"]
+        self.resource_types = ["Twitter", "Facebook", "Google", "Telegram",]
     
     def display_banner(self):
         print(f"{Fore.CYAN}=====================================")
@@ -140,7 +140,7 @@ class HiPinBot:
             
             if not available_resources:
                 # Fallback to default resources if none detected
-                available_resources = ["Twitter", "Google", "Telegram"]
+                available_resources = ["Twitter", "Facebook", "Google, Telegram"]
                 
             # Check if AI Agent is available
             if "agent" in str(data).lower():
