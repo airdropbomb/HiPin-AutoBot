@@ -3,7 +3,7 @@
 A Python automation tool for interacting with the HiPin platform to collect resources, complete daily check-ins, claim random tasks, and upgrade models automatically.
 
 ## Register
-- [HIPin Bot](https://t.me/hi_PIN_bot/app?startapp=pE4fqlT)
+- [HIPin Bot](https://t.me/hi_PIN_bot/app?startapp=p9yt75P)
 
   
 ## Features
