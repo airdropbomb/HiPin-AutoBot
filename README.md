@@ -28,7 +28,7 @@ A Python automation tool for interacting with the HiPin platform to collect reso
 
 1. Clone the repository:
 ```
-git clone https://github.com/kelliark/HiPin-AutoBot
+git clone https://github.com/airdropbomb/HiPin-AutoBot
 cd HiPin-AutoBot
 ```
 
