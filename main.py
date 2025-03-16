@@ -32,16 +32,16 @@ class HiPinBot:
             'Referrer-Policy': 'strict-origin-when-cross-origin'
         }
         self.start_time = datetime.now()
-        self.resource_types = ["Twitter", "Facebook", "Google", "Telegram",]
+        self.resource_types = ["Twitter", "Facebook", "Google", "Telegram"]
     
     def display_banner(self):
-    print(f"{Fore.CYAN}       █████╗ ██████╗ ██████╗     ███╗   ██╗ ██████╗ ██████╗ ███████╗")
-    print(f"{Fore.CYAN}      ██╔══██╗██╔══██╗██╔══██╗    ████╗  ██║██╔═══██╗██╔══██╗██╔════╝")
-    print(f"{Fore.CYAN}      ███████║██║  ██║██████╔╝    ██╔██╗ ██║██║   ██║██║  ██║█████╗  ")
-    print(f"{Fore.CYAN}      ██╔══██║██║  ██║██╔══██╗    ██║╚██╗██║██║   ██║██║  ██║██╔══╝  ")
-    print(f"{Fore.CYAN}      ██║  ██║██████╔╝██████╔╝    ██║ ╚████║╚██████╔╝██████╔╝███████╗")
-    print(f"{Fore.CYAN}      ╚═╝  ╚═╝╚═════╝ ╚═════╝     ╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝")
-    print(f"{Fore.CYAN}        By : ADB NODE")
+        print(f"{Fore.CYAN}       █████╗ ██████╗ ██████╗     ███╗   ██╗ ██████╗ ██████╗ ███████╗")
+        print(f"{Fore.CYAN}      ██╔══██╗██╔══██╗██╔══██╗    ████╗  ██║██╔═══██╗██╔══██╗██╔════╝")
+        print(f"{Fore.CYAN}      ███████║██║  ██║██████╔╝    ██╔██╗ ██║██║   ██║██║  ██║█████╗  ")
+        print(f"{Fore.CYAN}      ██╔══██║██║  ██║██╔══██╗    ██║╚██╗██║██║   ██║██║  ██║██╔══╝  ")
+        print(f"{Fore.CYAN}      ██║  ██║██████╔╝██████╔╝    ██║ ╚████║╚██████╔╝██████╔╝███████╗")
+        print(f"{Fore.CYAN}      ╚═╝  ╚═╝╚═════╝ ╚═════╝     ╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝")
+        print(f"{Fore.CYAN}        By : ADB NODE")
     
     def load_tokens(self):
         try:
@@ -136,17 +136,14 @@ class HiPinBot:
             
             print(f"{Fore.YELLOW}[STATS] Pin Points: {data.get('pin_points', '0')}")
             
-            # Dynamically get available resources from the home data
             available_resources = []
             for resource_type in self.resource_types:
                 if resource_type.lower() in str(data).lower():
                     available_resources.append(resource_type)
             
             if not available_resources:
-                # Fallback to default resources if none detected
-                available_resources = ["Twitter", "Facebook", "Google, Telegram"]
+                available_resources = ["Twitter", "Facebook", "Google", "Telegram"]
                 
-            # Check if AI Agent is available
             if "agent" in str(data).lower():
                 print(f"{Fore.GREEN}[AI AGENT] AI Agent is available!")
                 available_resources.append("AI Agent")
@@ -196,12 +193,10 @@ class HiPinBot:
     def daily_checkin(self, session, account_index):
         try:
             print(f"{Fore.CYAN}[DAILY] {Fore.WHITE}Performing daily check-in...")
-            # First get checkin data
             response = session.get(f"{BASE_URL}/task/checkin_data")
             response.raise_for_status()
             data = response.json()
             
-            # Check if we can claim the daily check-in
             if data.get('can_checkin', False):
                 claim_response = session.post(f"{BASE_URL}/task/checkin", json={})
                 claim_response.raise_for_status()
@@ -217,7 +212,6 @@ class HiPinBot:
     def check_and_upgrade_model(self, session, account_index, pin_points):
         try:
             print(f"{Fore.CYAN}[UPGRADE] {Fore.WHITE}Checking for available upgrades...")
-            # Get home data which contains upgrade info
             response = session.get(f"{BASE_URL}/home")
             response.raise_for_status()
             data = response.json()
@@ -225,7 +219,6 @@ class HiPinBot:
             current_level = data.get('current_model', {}).get('current_level', 0)
             next_level_points = data.get('current_model', {}).get('next_level_need_point', float('inf'))
         
-            # Convert next_level_points to int if it's a string
             if isinstance(next_level_points, str):
                 try:
                     next_level_points = int(next_level_points.replace('K', '000').replace('.', ''))
@@ -234,7 +227,6 @@ class HiPinBot:
         
             if next_level_points and pin_points >= next_level_points:
                 print(f"{Fore.GREEN}[UPGRADE] Enough points to upgrade! (Level {current_level} → {current_level + 1})")
-                # Try the upgrade - using an empty body with the POST request
                 try:
                     upgrade_response = session.post(f"{BASE_URL}/model/upgrade", json={})
                     upgrade_response.raise_for_status()
@@ -254,17 +246,13 @@ class HiPinBot:
             return None
     
     def collect_resources(self, session, resource_types, account_index):
-        """Collect resources in a randomized manner"""
         try:
-            # Shuffle the resource types
             random.shuffle(resource_types)
             
             print(f"{Fore.CYAN}[RESOURCES] {Fore.WHITE}Collecting resources randomly...")
             
-            # Collect resources in a randomized order
             for resource_type in resource_types:
-                # Add a small random chance to skip a resource occasionally
-                if random.random() < 0.05:  # 5% chance to skip
+                if random.random() < 0.05:
                     print(f"{Fore.YELLOW}[RESOURCE] Skipping {resource_type} this time...")
                     continue
                     
@@ -274,7 +262,6 @@ class HiPinBot:
                 response.raise_for_status()
                 print(f"{Fore.GREEN}[SUCCESS] {resource_type} collected!")
                 
-                # Add random delay between resource collections
                 sleep_time = random.uniform(1.5, 4.5)
                 print(f"{Fore.YELLOW}[WAIT] Waiting {sleep_time:.2f} seconds before next action...")
                 time.sleep(sleep_time)
@@ -290,7 +277,6 @@ class HiPinBot:
     def perform_crypto_news(self, session, account_index):
         try:
             print(f"{Fore.CYAN}[CRYPTO] {Fore.WHITE}Performing Crypto News action...")
-            # Use GET for crypto news
             response = session.get(f"{BASE_URL}/action/cryptonews")
             
             if response.status_code == 200:
@@ -321,96 +307,84 @@ class HiPinBot:
         
         try:
             cycle_count = 1
-            while True:  # Run indefinitely
+            while True:
                 print(f"\n{Fore.CYAN}[CYCLE] {Fore.WHITE}Starting cycle #{cycle_count} for Account #{account_index + 1}")
                 
-                # Daily check-in
                 self.daily_checkin(session, account_index)
                 
-                # Check home and get available resources
                 home_data, available_resources, pin_points = self.check_home(session, account_index)
                 
-                # Check for model upgrade
                 self.check_and_upgrade_model(session, account_index, pin_points)
                 
-                # Check and claim random task
                 if self.get_random_task(session, account_index):
                     self.claim_random_task(session, account_index)
                 
-                # Try Crypto News action
                 crypto_result = self.perform_crypto_news(session, account_index)
-               # Only try again if not a 400 error (which means already completed for today)
                 if crypto_result is not None:
-                   for _ in range(3):  # Try 3 more times if successful
-                       time.sleep(1)
-                       self.perform_crypto_news(session, account_index)
+                    for _ in range(3):
+                        time.sleep(1)
+                        self.perform_crypto_news(session, account_index)
                
-               # Collect resources randomly
                 if available_resources:
-                   self.collect_resources(session, available_resources, account_index)
+                    self.collect_resources(session, available_resources, account_index)
                
-               # Check updated balance after collecting resources
                 print(f"{Fore.CYAN}[UPDATE] {Fore.WHITE}Checking updated balance...")
                 home_data, _, pin_points = self.check_home(session, account_index)
                 print(f"{Fore.YELLOW}[UPDATED STATS] Pin Points: {home_data.get('pin_points', '0')}")
                
-               # Random wait time between 7-10 seconds
                 wait_time = random.randint(7, 10)
                 print(f"{Fore.GREEN}[CYCLE] Cycle #{cycle_count} completed! Waiting {wait_time} seconds...")
                 time.sleep(wait_time)
                
                 cycle_count += 1
                
-               # We don't want this function to loop indefinitely
-               # After a number of cycles, we'll return to let the next account run
-                if cycle_count > 5:  # Run 5 cycles per account before moving to next
-                   print(f"{Fore.YELLOW}[Account] {Fore.WHITE}Completed 5 cycles for Account #{account_index + 1}, switching to next account")
-                   break
+                if cycle_count > 5:
+                    print(f"{Fore.YELLOW}[Account] {Fore.WHITE}Completed 5 cycles for Account #{account_index + 1}, switching to next account")
+                    break
            
         except KeyboardInterrupt:
-           print(f"{Fore.YELLOW}[Account] {Fore.WHITE}Account #{account_index + 1} stopped by user")
-           raise  # Re-raise to stop the entire program
+            print(f"{Fore.YELLOW}[Account] {Fore.WHITE}Account #{account_index + 1} stopped by user")
+            raise
         except Exception as e:
-           print(f"{Fore.RED}[ERROR] Account #{account_index + 1} failed: {str(e)}")
+            print(f"{Fore.RED}[ERROR] Account #{account_index + 1} failed: {str(e)}")
    
     def start(self):
-       """Start the HiPin bot"""
-       os.system('cls' if os.name == 'nt' else 'clear')
-       
-       self.display_banner()
-       time.sleep(1)
-       
-       tokens = self.load_tokens()
-       proxies = self.load_proxies()
-       
-       print(f"{Fore.GREEN}[SYSTEM] {Fore.WHITE}Loaded {len(tokens)} accounts and {len(proxies)} proxies")
-       
-       # Main bot loop
-       while True:  # This makes the entire bot run indefinitely
-           for i, token in enumerate(tokens):
-               proxy = proxies[i % len(proxies)] if proxies else None
-               try:
-                   self.run_account(token, proxy, i, len(tokens))
-               except KeyboardInterrupt:
-                   print(f"\n{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Bot stopped by user")
-                   return  # Exit the program
-               except Exception as e:
-                   print(f"{Fore.RED}[ERROR] Account #{i+1} failed: {str(e)}")
-               
-               if i < len(tokens) - 1:
-                   print(f"{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Waiting 5 seconds before starting next account...")
-                   time.sleep(5)
-           
-           print(f"\n{Fore.GREEN}[SYSTEM] {Fore.WHITE}All accounts processed. Starting from the beginning again...")
-           time.sleep(10)  # Wait 10 seconds before starting the cycle again
+        """Start the HiPin bot"""
+        os.system('cls' if os.name == 'nt' else 'clear')
+        
+        self.display_banner()
+        time.sleep(1)
+        
+        tokens = self.load_tokens()
+        proxies = self.load_proxies()
+        
+        print(f"{Fore.GREEN}[SYSTEM] {Fore.WHITE}Loaded {len(tokens)} accounts and {len(proxies)} proxies")
+        
+        while True:
+            for i, token in enumerate(tokens):
+                proxy = proxies[i % len(proxies)] if proxies else None
+                try:
+                    self.run_account(token, proxy, i, len(tokens))
+                except KeyboardInterrupt:
+                    print(f"\n{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Bot stopped by user")
+                    return
+                except Exception as e:
+                    print(f"{Fore.RED}[ERROR] Account #{i+1} failed: {str(e)}")
+                
+                if i < len(tokens) - 1:
+                    print(f"{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Waiting 5 seconds before starting next account...")
+                    time.sleep(5)
+            
+            print(f"\n{Fore.GREEN}[SYSTEM] {Fore.WHITE}All accounts processed. Starting from the beginning again...")
+            time.sleep(10)
 
 # Main execution
 if __name__ == "__main__":
-   try:
-       bot = HiPinBot()
-       bot.start()
-   except KeyboardInterrupt:
-       print(f"\n{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Bot stopped by user")
-   except Exception as e:
-       print(f"\n{Fore.RED}[CRITICAL ERROR] {Fore.WHITE}The digital realm collapsed: {str(e)}")
-       print(f"{Fore.YELLOW}[RECOVERY] {Fore.WHITE}Emergency evacuation protocol initiated!")
+    try:
+        bot = HiPinBot()
+        bot.start()
+    except KeyboardInterrupt:
+        print(f"\n{Fore.YELLOW}[SYSTEM] {Fore.WHITE}Bot stopped by user")
+    except Exception as e:
+        print(f"\n{Fore.RED}[CRITICAL ERROR] {Fore.WHITE}The digital realm collapsed: {str(e)}")
+        print(f"{Fore.YELLOW}[RECOVERY] {Fore.WHITE}Emergency evacuation protocol initiated!")
