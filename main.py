@@ -35,9 +35,13 @@ class HiPinBot:
         self.resource_types = ["Twitter", "Facebook", "Google", "Telegram",]
     
     def display_banner(self):
-        print(f"{Fore.CYAN}=====================================")
-        print(f"{Fore.CYAN}  Hi Pin Quest Bot - Kelliark ")
-        print(f"{Fore.CYAN}=====================================")
+    print(f"{Fore.CYAN}       █████╗ ██████╗ ██████╗     ███╗   ██╗ ██████╗ ██████╗ ███████╗")
+    print(f"{Fore.CYAN}      ██╔══██╗██╔══██╗██╔══██╗    ████╗  ██║██╔═══██╗██╔══██╗██╔════╝")
+    print(f"{Fore.CYAN}      ███████║██║  ██║██████╔╝    ██╔██╗ ██║██║   ██║██║  ██║█████╗  ")
+    print(f"{Fore.CYAN}      ██╔══██║██║  ██║██╔══██╗    ██║╚██╗██║██║   ██║██║  ██║██╔══╝  ")
+    print(f"{Fore.CYAN}      ██║  ██║██████╔╝██████╔╝    ██║ ╚████║╚██████╔╝██████╔╝███████╗")
+    print(f"{Fore.CYAN}      ╚═╝  ╚═╝╚═════╝ ╚═════╝     ╚═╝  ╚═══╝ ╚═════╝ ╚═════╝ ╚══════╝")
+    print(f"{Fore.CYAN}        By : ADB NODE")
     
     def load_tokens(self):
         try:
